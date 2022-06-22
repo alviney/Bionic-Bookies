@@ -11,17 +11,17 @@ public class GamblerHoldings : MonoBehaviour
 
     private void OnEnable()
     {
-        gambler = GameManager.gamblers.activeGambler;
+        gambler = Store.activeGambler;
         gambler.OnStatsChanged += UpdateUI;
 
-        GameManager.gamblers.OnActiveGamblerChanged += OnActiveGamblerChanged;
+        SessionManager.instance.OnActiveGamblerChanged += OnActiveGamblerChanged;
         UpdateUI();
     }
 
     private void OnDisable()
     {
         gambler.OnStatsChanged -= UpdateUI;
-        GameManager.gamblers.OnActiveGamblerChanged -= OnActiveGamblerChanged;
+        SessionManager.instance.OnActiveGamblerChanged -= OnActiveGamblerChanged;
     }
 
     private void OnActiveGamblerChanged(Gambler gambler)
@@ -33,9 +33,9 @@ public class GamblerHoldings : MonoBehaviour
 
     private void UpdateUI()
     {
-        activeGambler.text = GameManager.gamblers.activeGambler.name;
-        cashText.text = Dollarify(GameManager.gamblers.activeGambler.cash);
-        debtText.text = Dollarify(GameManager.gamblers.activeGambler.debt);
+        activeGambler.text = Store.activeGambler.name;
+        cashText.text = Dollarify(Store.activeGambler.cash);
+        debtText.text = Dollarify(Store.activeGambler.debt);
         spendText.text = "";
     }
 

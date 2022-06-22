@@ -7,19 +7,19 @@ public class BetInput : MonoBehaviour
 
     public void PlaceBet()
     {
-        int odds = GameManager.bookie.GetOdds(GameManager.race, this.racer);
-        Bet bet = new Bet(GameManager.gamblers.activeGambler, racer, numberInput.value, odds);
-        GameManager.bookie.PlaceBet(GameManager.race, bet);
+        int odds = Store.session.GetOdds(Store.activeRace, this.racer);
+        Bet bet = new Bet(Store.activeGambler, racer, numberInput.value, odds);
+        SessionManager.instance.PlaceBet(bet);
         this.gameObject.SetActive(false);
     }
 
     public void Set(Racer racer)
     {
         this.racer = racer;
-        if (GameManager.gamblers.activeGambler != null)
+        if (Store.activeGambler != null)
         {
-            int min = Mathf.Min(numberInput.min, GameManager.gamblers.activeGambler.cash);
-            int max = GameManager.gamblers.activeGambler.cash;
+            int min = Mathf.Min(numberInput.min, Store.activeGambler.cash);
+            int max = Store.activeGambler.cash;
             numberInput.SetRange(min, max);
         }
     }

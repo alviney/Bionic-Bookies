@@ -1,26 +1,22 @@
 using UnityEngine;
-using UnityEngine.Events;
 using System.Collections.Generic;
 
 public class RaceSetup : MonoBehaviour
 {
     public GameObject raceWorldPrefab;
-    public UnityEvent OnRaceSetup;
-    public UnityEvent OnRaceFinished;
 
     private GameObject raceWorld;
 
     private void OnEnable()
     {
-        OnRaceSetup.Invoke();
         SpawnRaceWorld();
-        GameManager.race.OnFinished += RaceFinished;
-        GameManager.StartRace();
+        Store.activeRace.OnFinished += RaceFinished;
+        Store.activeRace.Start();
     }
 
     private void OnDisable()
     {
-        GameManager.race.OnFinished -= RaceFinished;
+        Store.activeRace.OnFinished -= RaceFinished;
     }
 
     private void SpawnRaceWorld()
@@ -39,6 +35,6 @@ public class RaceSetup : MonoBehaviour
 
     private void RaceFinished(List<Racer> racers)
     {
-        this.OnRaceFinished.Invoke();
+        SessionManager.instance.NextState();
     }
 }

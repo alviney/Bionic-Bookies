@@ -11,7 +11,7 @@ public class Results : MonoBehaviour
     private void OnEnable()
     {
         int i = 0;
-        foreach (Racer racer in GameManager.race.racersFinished)
+        foreach (Racer racer in Store.activeRace.racersFinished)
         {
             results[i].text = racer.name;
             i++;
@@ -20,13 +20,13 @@ public class Results : MonoBehaviour
 
     public void OnNext()
     {
-        if (GameManager.session.isFinished)
+        if (Store.session.isFinished)
         {
             this.OnSessionFinished.Invoke();
         }
         else
         {
-            this.OnNextRace.Invoke();
+            SessionManager.instance.NextState();
         }
     }
 }

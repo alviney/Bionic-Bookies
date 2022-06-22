@@ -10,7 +10,7 @@ public class RacerBettingCard : MonoBehaviour
 
     private void OnEnable()
     {
-        this.racer = GameManager.racers.all[this.transform.GetSiblingIndex()];
+        this.racer = Store.racers[this.transform.GetSiblingIndex()];
         racerName.text = this.racer?.name;
 
         if (this.transform.GetSiblingIndex() == 2)

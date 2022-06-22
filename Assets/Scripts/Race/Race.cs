@@ -1,22 +1,25 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
+[System.Serializable]
 public class Race
 {
     public Action<List<Racer>> OnFinished;
-    public Racer[] racers { get; private set; }
-    public List<Racer> racersFinished { get; private set; }
+    public int raceNumber;
+    public List<Racer> racersFinished;
 
-    public Race(Racer[] racers)
+    public Race(int raceNumber)
     {
         this.racersFinished = new List<Racer>();
 
-        this.racers = racers;
+
+        this.raceNumber = raceNumber;
     }
 
     public void Start()
     {
-        foreach (Racer racer in racers)
+        foreach (Racer racer in Store.racers)
         {
             racer.Race();
         }
@@ -25,7 +28,7 @@ public class Race
     public void AddRacerToFinished(Racer racer)
     {
         racersFinished.Add(racer);
-        if (racersFinished.Count == racers.Length)
+        if (racersFinished.Count == Store.racers.Length)
         {
             Finish();
         }

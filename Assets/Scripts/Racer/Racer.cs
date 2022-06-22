@@ -22,6 +22,7 @@ public static class RacerNames
     }
 }
 
+[System.Serializable]
 public class Racer
 {
     public System.Action OnRace;

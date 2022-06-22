@@ -7,7 +7,7 @@ public class Winnings : MonoBehaviour
 
     private void OnEnable()
     {
-        SpawnPayouts(GameManager.bookie.GetPayouts(GameManager.race));
+        SpawnPayouts(Store.session.payouts);
     }
 
     private void OnDisable()

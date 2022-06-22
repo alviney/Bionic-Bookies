@@ -6,7 +6,7 @@ public class FinishLine : MonoBehaviour
     {
         if (other.CompareTag("Racer"))
         {
-            GameManager.race.AddRacerToFinished(other.GetComponent<RacerController>()?.racer);
+            Store.activeRace.AddRacerToFinished(other.GetComponent<RacerController>()?.racer);
         }
     }
 }

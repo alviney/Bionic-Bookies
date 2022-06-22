@@ -1,73 +1,39 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 public class Gamblers
 {
-    public Action<Gambler> OnActiveGamblerChanged;
-
-    public Gambler[] all { get; private set; }
-    public Gambler activeGambler;
-
-    public Gamblers(int numberOfHumans = 1, int numberOfAI = 1)
+    public static List<Gambler> CreateGamblers(string[] names, bool human = false, bool online = false)
     {
-        int totalGamblers = numberOfHumans + numberOfAI;
-        all = new Gambler[totalGamblers];
-        for (int i = 0; i < totalGamblers; i++)
+        List<Gambler> gamblers = new List<Gambler>();
+        foreach (string name in names)
         {
-            all[i] = new Gambler();
-            if (i < numberOfHumans)
-            {
-                all[i].playerControlled = true;
-            }
+            gamblers.Add(new Gambler(name, human, online));
         }
-        activeGambler = all[0];
+
+        return gamblers;
     }
 
-    public void ResetStatuses()
+    public static bool AreAllGamblersReady(List<Gambler> gamblers)
     {
-        foreach (Gambler gambler in all)
+        return gamblers.All(gambler => gambler.status == GamblerStatus.Ready);
+    }
+
+    public static void SetGamblerStatuses(List<Gambler> gamblers, GamblerStatus status)
+    {
+        foreach (Gambler gambler in gamblers)
         {
-            gambler.UpdateStatus(GamblerStatus.NotReady);
-            activeGambler = all[0];
+            gambler.status = status;
         }
     }
 
-    public bool AllGamblersReady
+    public static List<Gambler> OrderByStanding(List<Gambler> gamblers)
     {
-        get
-        {
-            bool allReady = true;
-            foreach (Gambler gambler in this.all)
-            {
-                if (gambler.status == GamblerStatus.NotReady)
-                {
-                    allReady = false;
-                    break;
-                }
-            }
-
-            return allReady;
-        }
+        return gamblers.OrderByDescending(g => g.cash).ToList();
     }
 
-    public void NextGambler()
+    public static Gambler GetGamblerByName(List<Gambler> gamblers, string name)
     {
-        foreach (Gambler gambler in this.all)
-        {
-            if (gambler.playerControlled && gambler.status == GamblerStatus.NotReady)
-            {
-                this.activeGambler = gambler;
-                this.OnActiveGamblerChanged?.Invoke(gambler);
-            }
-        }
-    }
-
-    public Gambler[] allByStanding
-    {
-        get
-        {
-            return all.OrderByDescending(g => g.cash).ToArray();
-        }
+        return gamblers.Find(gambler => gambler.name == name);
     }
 }

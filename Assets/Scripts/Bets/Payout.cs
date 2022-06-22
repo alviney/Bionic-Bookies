@@ -1,3 +1,4 @@
+[System.Serializable]
 public class Payout
 {
     public Gambler gambler;

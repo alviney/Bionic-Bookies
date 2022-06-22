@@ -15,7 +15,7 @@ public class GamblerBettingCard : MonoBehaviour
     private void OnEnable()
     {
         int index = this.transform.GetSiblingIndex();
-        gambler = GameManager.gamblers.allByStanding[index];
+        gambler = Store.gamblersByStanding[index];
         if (gambler != null)
         {
             gambler.OnStatusChanged += SetReadyStatus;

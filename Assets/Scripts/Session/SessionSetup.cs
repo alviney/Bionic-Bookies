@@ -3,10 +3,11 @@ using UnityEngine.Events;
 
 public class SessionSetup : MonoBehaviour
 {
-    public UnityEvent OnSessionCreated;
+    public UnityEvent OnCreateLobby;
     public NumberInput numberOfHumans;
     public NumberInput numberOfAI;
     public NumberInput numberOfRounds;
+    public bool online = false;
 
     private void OnEnable()
     {
@@ -15,10 +16,25 @@ public class SessionSetup : MonoBehaviour
         numberOfRounds.SetValue(5);
     }
 
+    public void SetOnline()
+    {
+        online = true;
+        OnCreateLobby.Invoke();
+    }
+
+    public void SetOffline()
+    {
+        online = false;
+    }
+
     public void CreateSession()
     {
-        Session session = new Session(numberOfHumans.value, numberOfAI.value, numberOfRounds.value);
-        GameManager.StartSession(session);
-        OnSessionCreated.Invoke();
+        SessionManager.instance.CreateSession(numberOfHumans.value, numberOfAI.value, numberOfRounds.value, online);
+        SessionManager.instance.NextState();
+    }
+
+    public void StartSession()
+    {
+        // Store.session.Start();
     }
 }

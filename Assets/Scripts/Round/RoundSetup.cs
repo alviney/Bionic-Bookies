@@ -20,25 +20,23 @@ public class RoundSetup : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.NewRace();
-
-        roundTitle.text = "Race " + GameManager.session.index.ToString();
+        roundTitle.text = "Race " + Store.race.raceNumber.ToString();
 
         PopulateBettingCards();
     }
 
     private void PopulateBettingCards()
     {
-        foreach (Racer racer in GameManager.racers.all)
+        foreach (Racer racer in Store.racers)
         {
             GameObject instance = Instantiate(racerBettingCardPrefab, racerBettingCardParent);
             instance.GetComponent<RacerBettingCard>().OnClickHandler += HandleRacerCardClick;
         }
 
-        foreach (Gambler gambler in GameManager.gamblers.allByStanding)
+        foreach (Gambler gambler in Store.gamblersByStanding)
         {
             Instantiate(gamblerBettingCardPrefab, gamblerBettingCardParent);
-            if (!gambler.playerControlled)
+            if (!gambler.human)
             {
                 DOVirtual.DelayedCall(Random.Range(0.5f, 1.5f), () =>
                 {
@@ -50,20 +48,24 @@ public class RoundSetup : MonoBehaviour
 
     public void OnReady()
     {
-        GameManager.gamblers.activeGambler.UpdateStatus(GamblerStatus.Ready);
+        Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
 
-        if (GameManager.gamblers.AllGamblersReady)
+        foreach (Gambler gambler in Store.gamblers)
+        {
+            Debug.Log(gambler.name + " " + gambler.status);
+        }
+        if (Store.allGamblersReady)
         {
             DOVirtual.DelayedCall(1, () =>
             {
-                OnAllGamblersReady.Invoke();
+                SessionManager.instance.NextState();
                 foreach (Transform child in racerBettingCardParent) Destroy(child.gameObject, 1f);
                 foreach (Transform child in gamblerBettingCardParent) Destroy(child.gameObject, 1f);
             });
         }
         else
         {
-            GameManager.gamblers.NextGambler();
+            // Store.gamblersController.NextGambler();
         }
     }
 

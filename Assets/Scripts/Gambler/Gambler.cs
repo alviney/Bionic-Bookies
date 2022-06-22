@@ -24,22 +24,27 @@ public static class GamblerNames
 
 public enum GamblerStatus { Ready, NotReady }
 
+[System.Serializable]
 public class Gambler
 {
     public Action<GamblerStatus> OnStatusChanged;
     public Action OnStatsChanged;
-    public string name { get; private set; }
-    public int cash { get; private set; }
-    public int debt { get; private set; }
-    public GamblerStatus status { get; private set; }
-    public bool playerControlled = false;
+    public string name;
+    public int cash;
+    public int debt;
+    public GamblerStatus status;
+    public bool human = false;
+    public bool online = true;
 
-    public Gambler(int cash = 100)
+    public Gambler(string name, bool human = false, bool online = false, int cash = 100)
     {
-        this.name = GamblerNames.NewName;
+        this.name = name;
         this.cash = cash;
         this.debt = 0;
         this.status = GamblerStatus.NotReady;
+
+        this.human = human;
+        this.online = online;
     }
 
     public void UpdateCash(int change)

@@ -14,7 +14,7 @@ public class RaceWorld : MonoBehaviour
     private void SpawnRacers()
     {
         int i = 0;
-        foreach (Racer racer in GameManager.racers.all)
+        foreach (Racer racer in Store.racers)
         {
             GameObject instance = Instantiate(racerPrefab, trackPositionsParent.GetChild(i));
             instance.transform.localPosition = Vector3.zero;
