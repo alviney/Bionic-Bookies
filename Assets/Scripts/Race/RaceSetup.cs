@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class RaceSetup : MonoBehaviour
 {
@@ -11,7 +12,10 @@ public class RaceSetup : MonoBehaviour
     {
         SpawnRaceWorld();
         Store.activeRace.OnFinished += RaceFinished;
-        Store.activeRace.Start();
+        DOVirtual.DelayedCall(3, () =>
+        {
+            Store.activeRace.Start();
+        });
     }
 
     private void OnDisable()

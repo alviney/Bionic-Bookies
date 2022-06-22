@@ -22,5 +22,11 @@ public class Winnings : MonoBehaviour
             GameObject instance = Instantiate(winnerPrefab, this.transform);
             instance.GetComponent<Winnner>().Set(payout.gambler.name, "$" + payout.value.ToString());
         }
+
+        if (transform.childCount == 0)
+        {
+            GameObject instance = Instantiate(winnerPrefab, this.transform);
+            instance.GetComponent<Winnner>().Set("No winners. You all suck.", "");
+        }
     }
 }
