@@ -75,8 +75,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284703587
-  m_fontColor: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
@@ -316,6 +316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   racerName: {fileID: 4997891544542889987}
+  racer:
+    name: 
+    speed: 1
+    acceleration: 1
 --- !u!114 &1483492409404706337
 MonoBehaviour:
   m_ObjectHideFlags: 0

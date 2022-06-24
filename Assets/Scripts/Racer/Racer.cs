@@ -28,11 +28,19 @@ public class Racer
     public System.Action OnRace;
     public string name;
     public float speed = 1f;
+    public float acceleration = 1f;
+    public int hair;
+    public int hairColor;
+    public int bodyColor;
 
     public Racer()
     {
         this.name = RacerNames.NewName;
-        this.speed = Random.Range(8f, 12f);
+        this.speed = Random.Range(1f, 1.4f);
+        this.acceleration = Random.Range(0.3f, 0.6f);
+        this.hair = Random.Range(0, 3);
+        this.hairColor = Random.Range(0, 8);
+        this.bodyColor = this.hairColor;
     }
 
     public void Race()
