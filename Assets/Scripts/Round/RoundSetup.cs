@@ -38,10 +38,10 @@ public class RoundSetup : MonoBehaviour
             Instantiate(gamblerBettingCardPrefab, gamblerBettingCardParent);
             if (!gambler.human)
             {
-                DOVirtual.DelayedCall(Random.Range(0.5f, 1.5f), () =>
-                {
-                    gambler.UpdateStatus(GamblerStatus.Ready);
-                });
+                // DOVirtual.DelayedCall(Random.Range(0.5f, 1.5f), () =>
+                // {
+                // });
+                gambler.UpdateStatus(GamblerStatus.Ready);
             }
         }
     }

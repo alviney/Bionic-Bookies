@@ -39,8 +39,8 @@ public class Racer
         this.speed = Random.Range(1f, 1.4f);
         this.acceleration = Random.Range(0.3f, 0.6f);
         this.hair = Random.Range(0, 3);
-        this.hairColor = Random.Range(0, 8);
-        this.bodyColor = this.hairColor;
+        this.hairColor = Random.Range(0, 5);
+        this.bodyColor = Random.Range(0, 5);
     }
 
     public void Race()

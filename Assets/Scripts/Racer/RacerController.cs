@@ -10,10 +10,8 @@ public class RacerController : MonoBehaviour
     public Animator animator;
     public TextMeshProUGUI nameText;
     public SpriteRenderer hair;
-    public Sprite[] hairOptions;
-    public Color[] hairColors;
     public SpriteRenderer body;
-    public Color[] bodyColors;
+    public RacerPresetsSO racerPresets;
     private bool isRacing = false;
     private bool isAccelerating = false;
     private float speed;
@@ -24,9 +22,9 @@ public class RacerController : MonoBehaviour
         this.racer = racer;
         this.racer.OnRace += Race;
         nameText.text = racer.name;
-        this.hair.sprite = hairOptions[racer.hair];
-        this.hair.color = hairColors[racer.hairColor];
-        this.body.color = hairColors[racer.bodyColor];
+        this.hair.sprite = racerPresets.hairSprites[racer.hair].side;
+        this.hair.color = racerPresets.hairColors[racer.hairColor];
+        this.body.color = racerPresets.bodyColors[racer.bodyColor];
     }
 
     private void OnDestroy()

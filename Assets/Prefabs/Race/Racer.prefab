@@ -317,29 +317,8 @@ MonoBehaviour:
   animator: {fileID: 496434633148945855}
   nameText: {fileID: 7092476267180581046}
   hair: {fileID: 765962225}
-  hairOptions:
-  - {fileID: 21300000, guid: 771ecd98829cf514aba19d22b9161069, type: 3}
-  - {fileID: 21300000, guid: 35a60a941e0b2a2499bca72cbb9f8129, type: 3}
-  - {fileID: 21300000, guid: feabfa95a4d463d42ab6187408bea6b6, type: 3}
-  hairColors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0, g: 1, b: 0.6, a: 1}
-  - {r: 1, g: 0.8980392, b: 0, a: 1}
-  - {r: 1, g: 0.5844726, b: 0, a: 1}
-  - {r: 1, g: 0.078431375, b: 0, a: 1}
-  - {r: 0.88588476, g: 0, b: 1, a: 1}
-  - {r: 0.37254903, g: 0, b: 1, a: 1}
-  - {r: 0, g: 0.47320843, b: 1, a: 1}
   body: {fileID: 496434632478752358}
-  bodyColors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0, g: 1, b: 0.6, a: 1}
-  - {r: 1, g: 0.8950032, b: 0, a: 1}
-  - {r: 1, g: 0.5882353, b: 0, a: 1}
-  - {r: 1, g: 0.07898478, b: 0, a: 1}
-  - {r: 0.8862745, g: 0, b: 1, a: 1}
-  - {r: 0.37241364, g: 0, b: 1, a: 1}
-  - {r: 0, g: 0.4745098, b: 1, a: 1}
+  racerPresets: {fileID: 11400000, guid: 03ef9f107a8563e4eac99e599dff71fe, type: 2}
   modifiers: []
 --- !u!95 &496434633148945855
 Animator:
