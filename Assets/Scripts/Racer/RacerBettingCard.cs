@@ -6,6 +6,7 @@ using TMPro;
 public class RacerBettingCard : MonoBehaviour
 {
     public Action<Racer, Transform> OnClickHandler;
+    public TextMeshProUGUI odds;
     public TextMeshProUGUI racerName;
     public Animator animator;
 
@@ -19,6 +20,7 @@ public class RacerBettingCard : MonoBehaviour
     {
         this.racer = Store.racers[this.transform.GetSiblingIndex()];
         racerName.text = this.racer?.name;
+        odds.text = "1/" + Store.session.GetOdds(Store.activeRace, this.racer).ToString();
         this.hair.sprite = racerPresets.hairSprites[racer.hair].front;
         this.hair.color = racerPresets.hairColors[racer.hairColor];
         this.body.color = racerPresets.bodyColors[racer.bodyColor];

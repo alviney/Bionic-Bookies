@@ -7,6 +7,8 @@ public class SessionSetup : MonoBehaviour
     public NumberInput numberOfHumans;
     public NumberInput numberOfAI;
     public NumberInput numberOfRounds;
+    public GameObject numberOfHumansPanel;
+    public GameObject lobbyPanel;
     public bool online = false;
 
     private void OnEnable()
@@ -14,6 +16,9 @@ public class SessionSetup : MonoBehaviour
         numberOfHumans.SetValue(1);
         numberOfAI.SetValue(2);
         numberOfRounds.SetValue(5);
+
+        lobbyPanel.SetActive(online);
+        numberOfHumansPanel.SetActive(!online);
     }
 
     public void SetOnline()

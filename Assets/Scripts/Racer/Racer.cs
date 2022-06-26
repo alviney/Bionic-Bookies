@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class RacerNames
 {
-    public static List<string> full = new List<string> { "Fasty McFast Face", "Simple Steve", "What a Guy", "Lightning", "Sloth", "Bolt", "Fred" };
+    public static List<string> full = new List<string> { "Fasty McFast Face", "Simple Steve", "What a Guy", "Lightning", "Sloth", "Martha", "Fred", "Noozer", "Quick Sticks", "Ricky Roller" };
 
     public static string NewName
     {
