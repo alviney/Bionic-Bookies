@@ -5,7 +5,7 @@ public class Store
     public static Session session;
 
     public static Race activeRace { get => session.race; }
-    public static Racer[] racers { get => session.racers; }
+    public static List<Racer> racers { get => session.racers; }
 
     public static Race race { get => session.race; }
     public static List<Gambler> gamblers { get => session.gamblers; }

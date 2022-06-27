@@ -43,11 +43,11 @@ public class RacerController : MonoBehaviour
     {
         if (this.racer != null && isRacing)
         {
-            speed += racer.acceleration * Time.deltaTime;
-            speed = Mathf.Min(racer.speed - speedModifier, speed);
+            speed += racer.acceleration.GetValue() * Time.deltaTime;
+            speed = Mathf.Min(racer.speed.GetValue() - speedModifier, speed);
             this.transform.localPosition += new Vector3(speed * Time.deltaTime, 0, 0);
 
-            animator.SetBool("isAccelerating", speed < racer.speed);
+            animator.SetBool("isAccelerating", speed < racer.speed.GetValue());
         }
     }
 

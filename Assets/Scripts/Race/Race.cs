@@ -28,7 +28,7 @@ public class Race
     public void AddRacerToFinished(Racer racer)
     {
         racersFinished.Add(racer);
-        if (racersFinished.Count == Store.racers.Length)
+        if (racersFinished.Count == Store.racers.Count)
         {
             Finish();
         }

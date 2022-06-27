@@ -10,6 +10,7 @@ public class SessionManager : MonoBehaviour
     public static SessionManager instance;
     public Action<SessionState> OnStateChanged;
     public Action<Gambler> OnActiveGamblerChanged;
+    public Transform modalContainer;
     public SessionState state;
     public bool online = false;
     private bool isHost = true;
@@ -101,6 +102,7 @@ public class SessionManager : MonoBehaviour
             case SessionState.RaceResults:
                 if (isHost)
                 {
+                    Store.racers.ForEach(r => r.ClearModifiers());
                     Store.session.payouts.Clear();
                     foreach (Bet bet in Store.session.bets)
                     {

@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 public class Racers
 {
-    public static Racer[] CreateRacers()
+    public static List<Racer> CreateRacers()
     {
-        return new Racer[] { new Racer(), new Racer(), new Racer(), new Racer(), new Racer() };
+        return new List<Racer> { new Racer(), new Racer(), new Racer(), new Racer(), new Racer() };
     }
 }

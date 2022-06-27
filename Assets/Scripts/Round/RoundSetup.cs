@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
 using DG.Tweening;
 
@@ -7,6 +9,9 @@ using DG.Tweening;
 public class RoundSetup : MonoBehaviour
 {
     public TextMeshProUGUI roundTitle;
+    public TextMeshProUGUI betTotal;
+    public Button readyButton;
+    public TextMeshProUGUI notEnoughCashText;
     // Racers
     public GameObject racerBettingCardPrefab;
     public Transform racerBettingCardParent;
@@ -15,22 +20,40 @@ public class RoundSetup : MonoBehaviour
     public GameObject gamblerBettingCardPrefab;
     public Transform gamblerBettingCardParent;
 
-    public BetInput cardBetInput;
+    // Racing Cards
+    private List<RacerBettingCard> cards = new List<RacerBettingCard>();
+
+    public Vector3 betInputOffset = Vector3.zero;
     public UnityEvent OnAllGamblersReady;
 
     private void OnEnable()
     {
         roundTitle.text = "Race " + Store.race.raceNumber.ToString();
+        betTotal.text = "$0";
 
         PopulateBettingCards();
     }
 
+    private void OnDisable()
+    {
+        foreach (RacerBettingCard card in cards)
+        {
+            card.OnClickHandler -= HandleRacerCardClick;
+            card.OnBetUpdated -= HandleBetUpdate;
+        }
+    }
+
     private void PopulateBettingCards()
     {
+        cards.Clear();
+
         foreach (Racer racer in Store.racers)
         {
             GameObject instance = Instantiate(racerBettingCardPrefab, racerBettingCardParent);
-            instance.GetComponent<RacerBettingCard>().OnClickHandler += HandleRacerCardClick;
+            RacerBettingCard card = instance.GetComponent<RacerBettingCard>();
+            cards.Add(card);
+            card.OnClickHandler += HandleRacerCardClick;
+            card.OnBetUpdated += HandleBetUpdate;
         }
 
         foreach (Gambler gambler in Store.gamblersByStanding)
@@ -69,10 +92,27 @@ public class RoundSetup : MonoBehaviour
         }
     }
 
-    private void HandleRacerCardClick(Racer racer, Transform transform)
+    private void HandleBetUpdate(RacerBettingCard card)
     {
-        cardBetInput.gameObject.SetActive(true);
-        cardBetInput.Set(racer);
-        cardBetInput.transform.position = transform.position + Vector3.down * 230;
+        float total = 0;
+        foreach (RacerBettingCard _card in cards)
+        {
+            total += _card.betValue;
+        }
+
+        bool valid = total <= Store.activeGambler.cash;
+        readyButton.interactable = valid;
+        notEnoughCashText.enabled = !valid;
+
+        betTotal.text = "$" + total.ToString();
+    }
+
+    private void HandleRacerCardClick(RacerBettingCard card)
+    {
+        foreach (RacerBettingCard _card in cards)
+        {
+            if (_card != card) _card.HideInput();
+        }
+        card.ShowInput();
     }
 }

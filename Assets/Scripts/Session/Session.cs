@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Session
 {
     public int numberOfRounds;
-    public Racer[] racers;
+    public List<Racer> racers;
     public List<Gambler> gamblers;
     public Race race;
     public List<Bet> bets;
