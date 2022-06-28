@@ -4,7 +4,7 @@ using UnityEngine;
 using Steamworks;
 using Steamworks.Data;
 
-public enum SessionState { Lobby, Betting, Race, RaceResults }
+public enum SessionState { Lobby, Betting, Race, RaceResults, Accusations }
 public class SessionManager : MonoBehaviour
 {
     public static SessionManager instance;
@@ -60,7 +60,8 @@ public class SessionManager : MonoBehaviour
         if (state == SessionState.Lobby) { state = SessionState.Betting; }
         else if (state == SessionState.Betting) state = SessionState.Race;
         else if (state == SessionState.Race) state = SessionState.RaceResults;
-        else if (state == SessionState.RaceResults) state = SessionState.Betting;
+        else if (state == SessionState.RaceResults) state = SessionState.Accusations;
+        else if (state == SessionState.Accusations) state = SessionState.Betting;
 
         OnStateChange(state);
 

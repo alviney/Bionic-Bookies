@@ -7,6 +7,7 @@ public class SessionStateEventListener : MonoBehaviour
     public UnityEvent OnBettingEntered;
     public UnityEvent OnRaceEntered;
     public UnityEvent OnRaceResultsEntered;
+    public UnityEvent OnAccusationsEntered;
 
     private void OnEnable()
     {
@@ -33,6 +34,9 @@ public class SessionStateEventListener : MonoBehaviour
                 break;
             case SessionState.RaceResults:
                 OnRaceResultsEntered.Invoke();
+                break;
+            case SessionState.Accusations:
+                OnAccusationsEntered.Invoke();
                 break;
         }
     }

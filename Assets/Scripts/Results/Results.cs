@@ -7,8 +7,8 @@ public class Results : MonoBehaviour
 {
     public UnityEvent<Racer> OnRacerChanged;
     public UnityEvent OnNextRace;
-    public UnityEvent OnSessionFinished;
 
+    public GameObject reportModalPrefab;
     public List<ResultsEntry> results;
     private List<Racer> racers;
     private Racer activeRacer;
@@ -37,15 +37,14 @@ public class Results : MonoBehaviour
         }
     }
 
+    public void OnOpenReport()
+    {
+        GameObject instance = Instantiate(reportModalPrefab, SessionManager.instance.modalContainer);
+        instance.GetComponent<AccusationModal>().Present(this.activeRacer);
+    }
+
     public void OnNext()
     {
-        if (Store.session.isFinished)
-        {
-            this.OnSessionFinished.Invoke();
-        }
-        else
-        {
-            SessionManager.instance.NextState();
-        }
+        SessionManager.instance.NextState();
     }
 }
