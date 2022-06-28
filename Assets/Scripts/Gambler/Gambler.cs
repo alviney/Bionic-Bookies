@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class GamblerNames
 {
-    public static List<string> full = new List<string> { "Alex the great", "The Kind Prince", "Big Rock", "Sly Cybil", "Slippery Dave", "Harry the Hungry" };
+    public static List<string> full = new List<string> { "San Holo", "Big Rock", "Sly Cybil", "Slippery Dave", "Harry the Hungry" };
 
     public static string NewName
     {

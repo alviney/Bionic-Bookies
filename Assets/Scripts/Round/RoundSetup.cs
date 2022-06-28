@@ -71,6 +71,7 @@ public class RoundSetup : MonoBehaviour
 
     public void OnReady()
     {
+        PlaceBets();
         Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
 
         foreach (Gambler gambler in Store.gamblers)
@@ -89,6 +90,18 @@ public class RoundSetup : MonoBehaviour
         else
         {
             // Store.gamblersController.NextGambler();
+        }
+    }
+
+    private void PlaceBets()
+    {
+        foreach (RacerBettingCard card in cards)
+        {
+            if (card.betValue > 0)
+            {
+                Bet bet = new Bet(Store.activeGambler, card.racer, (int)card.betValue, 2);
+                SessionManager.instance.PlaceBet(bet);
+            }
         }
     }
 
