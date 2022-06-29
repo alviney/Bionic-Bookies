@@ -9,10 +9,12 @@ public static class RacerNames
     {
         if (full.Count <= 0)
         {
-            return "Racer " + Random.Range(0, 10000);
+            // return "Racer " + Random.Range(0, 10000);
+            return "Racer";
         }
 
-        int index = Random.Range(0, full.Count - 1);
+        // int index = Random.Range(0, full.Count - 1);
+        int index = 0;
         string name = full[index];
         full.RemoveAt(index);
         return name;
@@ -35,11 +37,16 @@ public class Racer
     public Racer()
     {
         this.name = RacerNames.GetNewName();
-        this.speed = new Stat(Random.Range(1f, 1.4f));
-        this.acceleration = new Stat(Random.Range(0.3f, 0.6f));
-        this.hair = Random.Range(0, 3);
-        this.hairColor = Random.Range(0, 5);
-        this.bodyColor = Random.Range(0, 5);
+        // this.speed = new Stat(Random.Range(1f, 1.4f));
+        this.speed = new Stat(1.2f);
+        // this.acceleration = new Stat(Random.Range(0.3f, 0.6f));
+        this.acceleration = new Stat(0.4f);
+        // this.hair = Random.Range(0, 3);
+        this.hair = 0;
+        // this.hairColor = Random.Range(0, 5);
+        this.hairColor = 0;
+        // this.bodyColor = Random.Range(0, 5);
+        this.bodyColor = 0;
     }
 
     public void AddTamper(Tamper tamper)

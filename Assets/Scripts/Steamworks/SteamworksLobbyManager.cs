@@ -104,7 +104,6 @@ public class SteamworksLobbyManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("lobby creation result ok");
             OnLobbyCreated.Invoke();
         }
     }
