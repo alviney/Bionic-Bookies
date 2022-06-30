@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Steamworks;
 
+public enum SessionState { Lobby, Betting, Race, RaceResults, Accusations }
 public class Session
 {
     public int numberOfRounds;
@@ -9,6 +11,8 @@ public class Session
     public Race race;
     public List<Bet> bets;
     public List<Payout> payouts;
+    public SessionState state;
+
 
     public Session(List<Gambler> gamblers, int numberOfRounds)
     {
@@ -30,6 +34,19 @@ public class Session
         get => race.raceNumber >= numberOfRounds;
     }
 
+    public SessionState GetNextState()
+    {
+        SessionState state = this.state;
+
+        if (state == SessionState.Lobby) { state = SessionState.Betting; }
+        else if (state == SessionState.Betting) state = SessionState.Race;
+        else if (state == SessionState.Race) state = SessionState.RaceResults;
+        else if (state == SessionState.RaceResults) state = SessionState.Accusations;
+        else if (state == SessionState.Accusations) state = SessionState.Betting;
+
+        return state;
+    }
+
     public string ToJson
     {
         get => JsonUtility.ToJson(this, true);
@@ -38,6 +55,47 @@ public class Session
     public string JsonKey
     {
         get => LobbyDataKey.Session.ToString();
+    }
+
+    public static Session NewOnline(int numberOfHumans, int numberOfAI, int numberOfRounds)
+    {
+        List<Gambler> gamblers = new List<Gambler>();
+
+        numberOfHumans = 0;
+        foreach (Friend friend in SteamworksLobbyManager.currentLobby.Members)
+        {
+            gamblers.Add(new Gambler(friend.Name, true, true));
+        }
+
+
+        for (int i = 0; i < numberOfHumans; i++)
+        {
+            gamblers.Add(new Gambler(GamblerNames.NewName, true, false));
+        }
+
+        for (int i = 0; i < numberOfAI; i++)
+        {
+            gamblers.Add(new Gambler(GamblerNames.NewName));
+        }
+
+        return new Session(gamblers, numberOfRounds);
+    }
+
+    public static Session New(int numberOfHumans, int numberOfAI, int numberOfRounds)
+    {
+        List<Gambler> gamblers = new List<Gambler>();
+
+        for (int i = 0; i < numberOfHumans; i++)
+        {
+            gamblers.Add(new Gambler(GamblerNames.NewName, true, false));
+        }
+
+        for (int i = 0; i < numberOfAI; i++)
+        {
+            gamblers.Add(new Gambler(GamblerNames.NewName));
+        }
+
+        return new Session(gamblers, numberOfRounds);
     }
 
     public static Session CreateFromJSON(string json)

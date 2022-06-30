@@ -4,14 +4,12 @@ using UnityEngine;
 using Steamworks;
 using Steamworks.Data;
 
-public enum SessionState { Lobby, Betting, Race, RaceResults, Accusations }
 public class SessionManager : MonoBehaviour
 {
     public static SessionManager instance;
     public Action<SessionState> OnStateChanged;
     public Action<Gambler> OnActiveGamblerChanged;
     public Transform modalContainer;
-    public SessionState state;
     public bool online = false;
     private bool isHost = true;
 
@@ -28,30 +26,14 @@ public class SessionManager : MonoBehaviour
 
     public void CreateSession(int numberOfHumans, int numberOfAI, int numberOfRounds)
     {
-        List<Gambler> gamblers = new List<Gambler>();
         if (online)
         {
-            numberOfHumans = 0;
-            foreach (Friend friend in SteamworksLobbyManager.currentLobby.Members)
-            {
-                gamblers.Add(new Gambler(friend.Name, true, true));
-            }
+            Store.session = Session.NewOnline(numberOfHumans, numberOfAI, numberOfRounds);
         }
-
-        if (isHost)
+        else
         {
-            for (int i = 0; i < numberOfHumans; i++)
-            {
-                gamblers.Add(new Gambler(GamblerNames.NewName, true, false));
-            }
-
-            for (int i = 0; i < numberOfAI; i++)
-            {
-                gamblers.Add(new Gambler(GamblerNames.NewName));
-            }
+            Store.session = Session.New(numberOfHumans, numberOfAI, numberOfRounds);
         }
-
-        Store.session = new Session(gamblers, numberOfRounds);
     }
 
     public void StartSession()
@@ -59,22 +41,25 @@ public class SessionManager : MonoBehaviour
         SessionManager.instance.NextState();
     }
 
+    public SessionState state
+    {
+        get => Store.session.state;
+    }
+
     public void NextState()
     {
-        if (state == SessionState.Lobby) { state = SessionState.Betting; }
-        else if (state == SessionState.Betting) state = SessionState.Race;
-        else if (state == SessionState.Race) state = SessionState.RaceResults;
-        else if (state == SessionState.RaceResults) state = SessionState.Accusations;
-        else if (state == SessionState.Accusations) state = SessionState.Betting;
+        SessionState state = Store.session.GetNextState();
+        SetSessionState(state);
+    }
 
+    public void SetSessionState(SessionState newState)
+    {
         OnStateChange(state);
 
         PostLobbyDataUpdate();
 
-        if (!online || isHost)
-        {
-            this.OnStateChanged?.Invoke(state);
-        }
+        Debug.Log("Transition to state : " + state);
+        this.OnStateChanged?.Invoke(state);
     }
 
     private void OnStateChange(SessionState state)
@@ -138,14 +123,18 @@ public class SessionManager : MonoBehaviour
     {
         if (online && !isHost)
         {
+            SessionState previousState = Store.session.state;
+
             string data = lobby.GetData(Store.session.JsonKey);
             if (data != "")
             {
                 Store.session = Session.CreateFromJSON(data);
             }
 
-            Debug.Log("Transition to state : " + state);
-            this.OnStateChanged?.Invoke(state);
+            if (Store.session.state != previousState)
+            {
+                SetSessionState(Store.session.state);
+            }
         }
     }
 
