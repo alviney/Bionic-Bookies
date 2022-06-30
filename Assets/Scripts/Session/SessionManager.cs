@@ -37,7 +37,7 @@ public class SessionManager : MonoBehaviour
 
     public void StartSession()
     {
-        NextState();
+        SetSessionState(SessionState.Betting);
     }
 
     public SessionState state
@@ -45,13 +45,14 @@ public class SessionManager : MonoBehaviour
         get => Store.session.state;
     }
 
-    public void NextState()
-    {
-        SetSessionState(Store.session.GetNextState());
-    }
-
     public void SetSessionState(SessionState newState)
     {
+
+        if (isHost && newState == Store.session.state)
+        {
+            return;
+        }
+
         Store.session.state = newState;
         OnStateChange(state);
 
@@ -136,7 +137,6 @@ public class SessionManager : MonoBehaviour
             SessionState previousState = Store.session.state;
 
             Debug.Log("Handle lobby data update");
-
             string data = lobby.GetData(Store.session.JsonKey);
             if (data != "")
             {
@@ -165,7 +165,7 @@ public class SessionManager : MonoBehaviour
             if (Store.allGamblersReady)
             {
                 Debug.Log("All gamblers ready");
-                NextState();
+                SetSessionState(SessionState.Race);
             }
         }
 

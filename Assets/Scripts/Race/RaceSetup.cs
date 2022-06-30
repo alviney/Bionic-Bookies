@@ -39,6 +39,6 @@ public class RaceSetup : MonoBehaviour
 
     private void RaceFinished(List<Racer> racers)
     {
-        SessionManager.instance.NextState();
+        SessionManager.instance.SetSessionState(SessionState.RaceResults);
     }
 }

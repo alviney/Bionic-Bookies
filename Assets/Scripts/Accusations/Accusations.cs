@@ -13,7 +13,7 @@ public class Accusations : MonoBehaviour
         }
         else
         {
-            SessionManager.instance.NextState();
+            SessionManager.instance.SetSessionState(SessionState.Betting);
         }
     }
 }

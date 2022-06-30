@@ -40,6 +40,9 @@ public class RoundSetup : MonoBehaviour
         {
             card.OnClickHandler -= HandleRacerCardClick;
             card.OnBetUpdated -= HandleBetUpdate;
+
+            foreach (Transform child in racerBettingCardParent) Destroy(child.gameObject);
+            foreach (Transform child in gamblerBettingCardParent) Destroy(child.gameObject);
         }
     }
 
@@ -75,19 +78,18 @@ public class RoundSetup : MonoBehaviour
         Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
         SessionManager.instance.PostLobbyMemberDataUpdate("status", GamblerStatus.Ready.ToString());
 
-        if (Store.allGamblersReady)
-        {
-            DOVirtual.DelayedCall(1, () =>
-            {
-                SessionManager.instance.NextState();
-                foreach (Transform child in racerBettingCardParent) Destroy(child.gameObject, 1f);
-                foreach (Transform child in gamblerBettingCardParent) Destroy(child.gameObject, 1f);
-            });
-        }
-        else
-        {
-            // Store.gamblersController.NextGambler();
-        }
+        // if (Store.allGamblersReady)
+        // {
+        //     DOVirtual.DelayedCall(1, () =>
+        //     {
+        //         SessionManager.instance.NextState();
+
+        //     });
+        // }
+        // else
+        // {
+        //     // Store.gamblersController.NextGambler();
+        // }
     }
 
     private void PlaceBets()

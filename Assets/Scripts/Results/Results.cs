@@ -45,6 +45,6 @@ public class Results : MonoBehaviour
 
     public void OnNext()
     {
-        SessionManager.instance.NextState();
+        SessionManager.instance.SetSessionState(SessionState.Accusations);
     }
 }
