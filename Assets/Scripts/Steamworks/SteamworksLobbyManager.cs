@@ -22,8 +22,6 @@ public class SteamworksLobbyManager : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
-
         SteamMatchmaking.OnLobbyCreated += OnLobbyCreatedCallback;
         SteamMatchmaking.OnLobbyEntered += OnLobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined += OnLobbyMemberJoined;
@@ -55,6 +53,7 @@ public class SteamworksLobbyManager : MonoBehaviour
 
     private void OnLobbyGameCreated(Lobby lobby, uint ip, ushort port, SteamId id)
     {
+        Debug.Log("Lobby game created");
         this._OnLobbyGameCreated.Invoke();
     }
 

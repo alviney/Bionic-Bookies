@@ -26,7 +26,7 @@ public class SessionManager : MonoBehaviour
         SteamMatchmaking.OnLobbyDataChanged -= HandleLobbyDataUpdate;
     }
 
-    public void CreateSession(int numberOfHumans, int numberOfAI, int numberOfRounds, bool online)
+    public void CreateSession(int numberOfHumans, int numberOfAI, int numberOfRounds)
     {
         List<Gambler> gamblers = new List<Gambler>();
         if (online)
@@ -52,7 +52,11 @@ public class SessionManager : MonoBehaviour
         }
 
         Store.session = new Session(gamblers, numberOfRounds);
-        this.online = online;
+    }
+
+    public void StartSession()
+    {
+        SessionManager.instance.NextState();
     }
 
     public void NextState()
