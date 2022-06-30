@@ -38,7 +38,7 @@ public class SessionManager : MonoBehaviour
 
     public void StartSession()
     {
-        SessionManager.instance.NextState();
+        NextState();
     }
 
     public SessionState state
@@ -110,10 +110,11 @@ public class SessionManager : MonoBehaviour
 
     public void PostLobbyDataUpdate()
     {
-        if (isHost && online)
+        if (isHost)
         {
             if (SteamworksLobbyManager.currentLobby.IsOwnedBy(SteamClient.SteamId))
             {
+                Debug.Log("Post Lobby Data Update ");
                 SteamworksLobbyManager.currentLobby.SetData(Store.session.JsonKey, Store.session.ToJson);
             }
         }
@@ -121,9 +122,10 @@ public class SessionManager : MonoBehaviour
 
     public void HandleLobbyDataUpdate(Lobby lobby)
     {
-        if (online && !isHost)
+        if (!isHost)
         {
             SessionState previousState = Store.session.state;
+
 
             string data = lobby.GetData(Store.session.JsonKey);
             if (data != "")
@@ -135,6 +137,9 @@ public class SessionManager : MonoBehaviour
             {
                 SetSessionState(Store.session.state);
             }
+            Debug.Log("Handle lobby data update - 2 messages ");
+            Debug.Log("1/2 - Old state: " + previousState);
+            Debug.Log("2/2 - New state: " + Store.session.state);
         }
     }
 
