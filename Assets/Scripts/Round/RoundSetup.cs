@@ -73,11 +73,8 @@ public class RoundSetup : MonoBehaviour
     {
         PlaceBets();
         Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
+        SessionManager.instance.PostLobbyMemberDataUpdate("status", GamblerStatus.Ready.ToString());
 
-        foreach (Gambler gambler in Store.gamblers)
-        {
-            Debug.Log(gambler.name + " " + gambler.status);
-        }
         if (Store.allGamblersReady)
         {
             DOVirtual.DelayedCall(1, () =>

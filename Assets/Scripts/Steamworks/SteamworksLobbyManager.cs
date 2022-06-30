@@ -10,7 +10,7 @@ public class SteamworksLobbyManager : MonoBehaviour
 {
     public static Lobby currentLobby;
 
-    public UnityEvent _OnLobbyGameCreated;
+    public UnityEvent<Lobby> _OnLobbyGameCreated;
     public UnityEvent OnLobbyCreated;
     public UnityEvent OnLobbyJoined;
     public UnityEvent OnLobbyLeave;
@@ -54,7 +54,7 @@ public class SteamworksLobbyManager : MonoBehaviour
     private void OnLobbyGameCreated(Lobby lobby, uint ip, ushort port, SteamId id)
     {
         Debug.Log("Lobby game created");
-        this._OnLobbyGameCreated.Invoke();
+        this._OnLobbyGameCreated.Invoke(lobby);
     }
 
     private async void OnLobbyMemberJoined(Lobby lobby, Friend friend)

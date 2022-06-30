@@ -7012,7 +7012,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modalContainer: {fileID: 233981809}
-  online: 0
 --- !u!1 &924401206
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,7 @@ public class Gambler
     public Action<GamblerStatus> OnStatusChanged;
     public Action OnStatsChanged;
     public string name;
+    public string networkID;
     public int cash;
     public int debt;
     public GamblerStatus status;

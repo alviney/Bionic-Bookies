@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 using Steamworks.Data;
@@ -15,11 +14,13 @@ public class SessionManager : MonoBehaviour
     {
         instance = this;
         SteamMatchmaking.OnLobbyDataChanged += HandleLobbyDataUpdate;
+        SteamMatchmaking.OnLobbyMemberDataChanged += HandleLobbyMemberDataUpdate;
     }
 
     private void OnDestroy()
     {
         SteamMatchmaking.OnLobbyDataChanged -= HandleLobbyDataUpdate;
+        SteamMatchmaking.OnLobbyMemberDataChanged -= HandleLobbyMemberDataUpdate;
     }
 
     public void CreateSession(int numberOfHumans, int numberOfAI, int numberOfRounds)
@@ -123,7 +124,6 @@ public class SessionManager : MonoBehaviour
             if (SteamworksLobbyManager.currentLobby.IsOwnedBy(SteamClient.SteamId))
             {
                 Debug.Log("Post Lobby Data Update ");
-                Debug.Log(Store.session.ToJson);
                 SteamworksLobbyManager.currentLobby.SetData(Store.session.JsonKey, Store.session.ToJson);
             }
         }
@@ -131,27 +131,49 @@ public class SessionManager : MonoBehaviour
 
     public void HandleLobbyDataUpdate(Lobby lobby)
     {
-        Debug.Log("Handle lobby data update - 2 messages ");
-        Debug.Log(isHost);
         if (!isHost)
         {
             SessionState previousState = Store.session.state;
 
+            Debug.Log("Handle lobby data update");
 
             string data = lobby.GetData(Store.session.JsonKey);
             if (data != "")
             {
                 Store.session = Session.CreateFromJSON(data);
             }
-            Debug.Log("State " + Store.session.state);
 
             if (Store.session.state != previousState)
             {
                 SetSessionState(Store.session.state);
             }
-            Debug.Log("1/2 - Old state: " + previousState);
-            Debug.Log("2/2 - New state: " + Store.session.state);
         }
+    }
+
+    public void HandleLobbyMemberDataUpdate(Lobby lobby, Friend friend)
+    {
+        Debug.Log("Handle lobby member data update for " + friend.Name);
+        string data = lobby.GetMemberData(friend, "status");
+        if (data != "")
+        {
+            GamblerStatus status = (GamblerStatus)System.Enum.Parse(typeof(GamblerStatus), data);
+            Debug.Log("Gambler status " + status);
+            Store.GetGambler(friend.Name).UpdateStatus(status);
+        }
+        if (isHost)
+        {
+            if (Store.allGamblersReady)
+            {
+                Debug.Log("All gamblers ready");
+                NextState();
+            }
+        }
+
+    }
+
+    public void PostLobbyMemberDataUpdate(string key, string value)
+    {
+        SteamworksLobbyManager.currentLobby.SetMemberData(key, value);
     }
 
     public void PlaceBet(Bet bet)
