@@ -48,12 +48,12 @@ public class SessionManager : MonoBehaviour
 
     public void NextState()
     {
-        SessionState state = Store.session.GetNextState();
-        SetSessionState(state);
+        SetSessionState(Store.session.GetNextState());
     }
 
     public void SetSessionState(SessionState newState)
     {
+        Store.session.state = newState;
         OnStateChange(state);
 
         PostLobbyDataUpdate();
