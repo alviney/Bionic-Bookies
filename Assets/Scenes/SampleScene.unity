@@ -11854,7 +11854,7 @@ MonoBehaviour:
       - m_Target: {fileID: 915800001}
         m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
         m_MethodName: StartSession
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
