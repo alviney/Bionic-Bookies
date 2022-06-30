@@ -10,8 +10,6 @@ public class SessionManager : MonoBehaviour
     public Action<SessionState> OnStateChanged;
     public Action<Gambler> OnActiveGamblerChanged;
     public Transform modalContainer;
-    public bool online = false;
-    private bool isHost = true;
 
     private void Awake()
     {
@@ -26,7 +24,7 @@ public class SessionManager : MonoBehaviour
 
     public void CreateSession(int numberOfHumans, int numberOfAI, int numberOfRounds)
     {
-        if (online)
+        if (isOnline)
         {
             Store.session = Session.NewOnline(numberOfHumans, numberOfAI, numberOfRounds);
         }
@@ -70,7 +68,7 @@ public class SessionManager : MonoBehaviour
                 // Reset gambler statuses
                 Gamblers.SetGamblerStatuses(Store.gamblers, GamblerStatus.NotReady);
                 // Set active gambler
-                if (online)
+                if (isOnline)
                 {
                     SetActiveGambler(Gamblers.GetGamblerByName(Store.gamblers, SteamClient.Name));
                 }
@@ -106,6 +104,16 @@ public class SessionManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private bool isOnline
+    {
+        get => SteamworksLobbyManager.currentLobby.Id != 0;
+    }
+
+    private bool isHost
+    {
+        get => SteamworksLobbyManager.currentLobby.IsOwnedBy(SteamClient.SteamId);
     }
 
     public void PostLobbyDataUpdate()
@@ -146,7 +154,7 @@ public class SessionManager : MonoBehaviour
     public void PlaceBet(Bet bet)
     {
         bet.Lock();
-        if (online)
+        if (isOnline)
         {
             // postBet
             Store.session.bets.Add(bet);
