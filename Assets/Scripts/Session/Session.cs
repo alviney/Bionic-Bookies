@@ -139,7 +139,7 @@ public class Session
         get => JsonUtility.ToJson(this);
     }
 
-    public string JsonKey
+    public static string JsonKey
     {
         get => LobbyDataKey.Session.ToString();
     }
