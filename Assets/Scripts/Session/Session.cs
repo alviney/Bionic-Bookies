@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using Steamworks;
 
 public enum SessionState { Lobby, Betting, Race, RaceResults, Accusations }
@@ -137,7 +136,7 @@ public class Session
 
     public string ToJson
     {
-        get => JsonUtility.ToJson(this, true);
+        get => JsonUtility.ToJson(this);
     }
 
     public string JsonKey

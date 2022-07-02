@@ -25,19 +25,16 @@ public class SessionManager : MonoBehaviour
 
     public void CreateSession(int numberOfHumans, int numberOfAI, int numberOfRounds)
     {
-        if (isOnline)
-        {
-            Store.session = Session.NewOnline(numberOfHumans, numberOfAI, numberOfRounds);
-        }
-        else
-        {
-            Store.session = Session.New(numberOfHumans, numberOfAI, numberOfRounds);
-        }
+        if (isOnline) Store.session = Session.NewOnline(numberOfHumans, numberOfAI, numberOfRounds);
+        else Store.session = Session.New(numberOfHumans, numberOfAI, numberOfRounds);
     }
 
     public void StartSession()
     {
-        SetSessionState(SessionState.Betting);
+        if (isHost)
+        {
+            SetSessionState(SessionState.Betting);
+        }
     }
 
     public SessionState state
@@ -47,7 +44,6 @@ public class SessionManager : MonoBehaviour
 
     public void SetSessionState(SessionState newState)
     {
-
         if (isHost && newState == Store.session.state)
         {
             return;
@@ -129,8 +125,6 @@ public class SessionManager : MonoBehaviour
             if (SteamworksLobbyManager.currentLobby.IsOwnedBy(SteamClient.SteamId))
             {
                 Debug.Log("Post Lobby Data Update ");
-                Debug.Log(Store.session.ToJson);
-
                 SteamworksLobbyManager.currentLobby.SetData(Store.session.JsonKey, Store.session.ToJson);
             }
         }
@@ -144,7 +138,6 @@ public class SessionManager : MonoBehaviour
 
             Debug.Log("Handle lobby data update");
             string data = lobby.GetData(Store.session.JsonKey);
-            Debug.Log(data);
             if (data != "")
             {
                 Store.session = Session.CreateFromJSON(data);
@@ -202,21 +195,6 @@ public class SessionManager : MonoBehaviour
     public void PostLobbyMemberDataUpdate(string key, string value)
     {
         SteamworksLobbyManager.currentLobby.SetMemberData(key, value);
-    }
-
-    public void PlaceBet(Bet bet)
-    {
-        bet.Lock();
-        if (isOnline)
-        {
-            // postBet
-            // Store.session.bets.Add(bet);
-        }
-        else
-        {
-            // Store.session.bets.Add(bet);
-
-        }
     }
 
     public void SetActiveGambler(Gambler gambler)
