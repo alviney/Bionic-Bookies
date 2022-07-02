@@ -94,14 +94,14 @@ public class SessionManager : MonoBehaviour
                 {
                     Store.racers.ForEach(r => r.ClearModifiers());
                     Store.session.payouts.Clear();
-                    Debug.Log("Bet count" + Store.session.bets.Count);
+
                     foreach (Bet bet in Store.session.bets)
                     {
                         if (bet.racer.name == Store.race.racersFinished[0].name)
                         {
                             int payout = bet.Payout;
-                            Store.GetGambler(bet.gambler.name).UpdateCash(payout);
-                            Store.session.payouts.Add(new Payout(bet.gambler, payout));
+                            Store.GetGambler(bet.gamblerName).UpdateCash(payout);
+                            Store.session.payouts.Add(new Payout(bet.gamblerName, payout));
                         }
                     }
                 }
@@ -126,6 +126,8 @@ public class SessionManager : MonoBehaviour
             if (SteamworksLobbyManager.currentLobby.IsOwnedBy(SteamClient.SteamId))
             {
                 Debug.Log("Post Lobby Data Update ");
+                Debug.Log(Store.session.ToJson);
+
                 SteamworksLobbyManager.currentLobby.SetData(Store.session.JsonKey, Store.session.ToJson);
             }
         }
@@ -139,6 +141,7 @@ public class SessionManager : MonoBehaviour
 
             Debug.Log("Handle lobby data update");
             string data = lobby.GetData(Store.session.JsonKey);
+            Debug.Log(data);
             if (data != "")
             {
                 Store.session = Session.CreateFromJSON(data);
@@ -209,6 +212,7 @@ public class SessionManager : MonoBehaviour
         else
         {
             // Store.session.bets.Add(bet);
+
         }
     }
 

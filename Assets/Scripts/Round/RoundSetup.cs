@@ -75,7 +75,7 @@ public class RoundSetup : MonoBehaviour
     public void OnReady()
     {
         Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
-        GamblerSubmission submission = new GamblerSubmission(Store.activeGambler, GetBets(), GetModifiers());
+        GamblerSubmission submission = new GamblerSubmission(Store.activeGambler.name, GetBets(), GetModifiers());
         SessionManager.instance.PostLobbyMemberDataUpdate(GamblerSubmission.JsonKey, submission.ToJson);
         SessionManager.instance.PostLobbyMemberDataUpdate("status", GamblerStatus.Ready.ToString());
     }
@@ -93,7 +93,7 @@ public class RoundSetup : MonoBehaviour
         {
             if (card.betValue > 0)
             {
-                Bet bet = new Bet(Store.activeGambler, card.racer, (int)card.betValue, 2);
+                Bet bet = new Bet(Store.activeGambler.name, card.racer, (int)card.betValue, 2);
                 bet.Lock();
                 bets.Add(bet);
                 // SessionManager.instance.PlaceBet(bet);

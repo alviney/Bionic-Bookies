@@ -4,13 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public struct GamblerSubmission
 {
-    public Gambler owner;
+    public string gamblerName;
     public List<Bet> bets;
     public List<RacerModifier> modifiers;
 
-    public GamblerSubmission(Gambler owner, List<Bet> bets, List<RacerModifier> modifiers)
+    public GamblerSubmission(string gamblerName, List<Bet> bets, List<RacerModifier> modifiers)
     {
-        this.owner = owner;
+        this.gamblerName = gamblerName;
         this.bets = bets;
         this.modifiers = modifiers;
     }

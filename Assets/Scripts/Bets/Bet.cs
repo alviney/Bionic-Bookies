@@ -1,16 +1,16 @@
 [System.Serializable]
 public class Bet
 {
-    public Gambler gambler;
+    public string gamblerName;
     public Racer racer;
     public int odds;
     public int value;
     public bool paidOut;
     private bool locked = false;
 
-    public Bet(Gambler gambler, Racer racer, int value, int odds)
+    public Bet(string gamblerName, Racer racer, int value, int odds)
     {
-        this.gambler = gambler;
+        this.gamblerName = gamblerName;
         this.racer = racer;
         this.value = value;
         this.odds = odds;
@@ -20,7 +20,7 @@ public class Bet
     {
         if (!locked)
         {
-            gambler.UpdateCash(-this.value);
+            Store.GetGambler(gamblerName).UpdateCash(-this.value);
             locked = true;
         }
     }

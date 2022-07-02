@@ -18,7 +18,7 @@ public class BetResults : MonoBehaviour
             if (bet.racer.name == racer.name)
             {
                 GameObject instance = Instantiate(betEntryPrefab, this.transform);
-                Payout payout = Store.session.payouts.Find(p => p.gambler.name == bet.gambler.name);
+                Payout payout = Store.session.payouts.Find(p => p.gamblerName == bet.gamblerName);
                 string value;
                 if (payout != null)
                 {
@@ -28,7 +28,7 @@ public class BetResults : MonoBehaviour
                 {
                     value = "-$" + bet.value.ToString();
                 }
-                instance.GetComponent<BetEntry>().Set(bet.gambler.name, value);
+                instance.GetComponent<BetEntry>().Set(bet.gamblerName, value);
             }
         }
     }

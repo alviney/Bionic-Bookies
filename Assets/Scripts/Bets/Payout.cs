@@ -1,12 +1,12 @@
 [System.Serializable]
 public class Payout
 {
-    public Gambler gambler;
+    public string gamblerName;
     public int value;
 
-    public Payout(Gambler gambler, int value)
+    public Payout(string gamblerName, int value)
     {
-        this.gambler = gambler;
+        this.gamblerName = gamblerName;
         this.value = value;
     }
 }

@@ -50,14 +50,14 @@ public class Session
 
     public void AddSubmission(GamblerSubmission submission)
     {
-        if (!submissions.Exists(s => s.owner.name == submission.owner.name))
+        if (!submissions.Exists(s => s.gamblerName == submission.gamblerName))
         {
             Debug.Log("Gambler submission " + submission);
             submissions.Add(submission);
         }
         else
         {
-            Debug.Log($"Submission for {submission.owner} already added");
+            Debug.Log($"Submission for {submission.gamblerName} already added");
         }
     }
 
