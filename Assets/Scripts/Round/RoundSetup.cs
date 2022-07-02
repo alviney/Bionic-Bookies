@@ -12,6 +12,8 @@ public class RoundSetup : MonoBehaviour
     public TextMeshProUGUI betTotal;
     public Button readyButton;
     public TextMeshProUGUI notEnoughCashText;
+    public GameObject tamperModalPrefab;
+
     // Racers
     public GameObject racerBettingCardPrefab;
     public Transform racerBettingCardParent;
@@ -25,11 +27,14 @@ public class RoundSetup : MonoBehaviour
 
     public Vector3 betInputOffset = Vector3.zero;
     public UnityEvent OnAllGamblersReady;
+    private List<RacerModifier> modifiers = new List<RacerModifier>();
 
     private void OnEnable()
     {
         roundTitle.text = "Race " + Store.race.raceNumber.ToString();
         betTotal.text = "$0";
+
+        modifiers.Clear();
 
         PopulateBettingCards();
     }
@@ -57,6 +62,7 @@ public class RoundSetup : MonoBehaviour
             cards.Add(card);
             card.OnClickHandler += HandleRacerCardClick;
             card.OnBetUpdated += HandleBetUpdate;
+            card.OnTamperCick += HandleTamperClick;
         }
 
         foreach (Gambler gambler in Store.gamblersByStanding)
@@ -67,6 +73,7 @@ public class RoundSetup : MonoBehaviour
                 // DOVirtual.DelayedCall(Random.Range(0.5f, 1.5f), () =>
                 // {
                 // });
+
                 gambler.UpdateStatus(GamblerStatus.Ready);
             }
         }
@@ -75,15 +82,9 @@ public class RoundSetup : MonoBehaviour
     public void OnReady()
     {
         Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
-        GamblerSubmission submission = new GamblerSubmission(Store.activeGambler.name, GetBets(), GetModifiers());
+        GamblerSubmission submission = new GamblerSubmission(Store.activeGambler.name, GetBets(), modifiers);
         SessionManager.instance.PostLobbyMemberDataUpdate(GamblerSubmission.JsonKey, submission.ToJson);
         SessionManager.instance.PostLobbyMemberDataUpdate("status", GamblerStatus.Ready.ToString());
-    }
-
-
-    private List<RacerModifier> GetModifiers()
-    {
-        return new List<RacerModifier>();
     }
 
     private List<Bet> GetBets()
@@ -93,7 +94,7 @@ public class RoundSetup : MonoBehaviour
         {
             if (card.betValue > 0)
             {
-                Bet bet = new Bet(Store.activeGambler.name, card.racer, (int)card.betValue, 2);
+                Bet bet = new Bet(Store.activeGambler.name, card.racer.name, (int)card.betValue, 2);
                 bet.Lock();
                 bets.Add(bet);
                 // SessionManager.instance.PlaceBet(bet);
@@ -101,6 +102,19 @@ public class RoundSetup : MonoBehaviour
         }
 
         return bets;
+    }
+
+    private void OnAddModifier(RacerModifier racerModifier)
+    {
+        this.modifiers.Add(racerModifier);
+    }
+
+    private void HandleTamperClick(RacerBettingCard card)
+    {
+        GameObject instance = Instantiate(tamperModalPrefab, SessionManager.instance.modalContainer);
+        TamperModal modal = instance.GetComponent<TamperModal>();
+        modal.racer = card.racer;
+        modal.OnAddModifier += OnAddModifier;
     }
 
     private void HandleBetUpdate(RacerBettingCard card)

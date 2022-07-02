@@ -7,8 +7,8 @@ public class RacerBettingCard : MonoBehaviour
 {
     public Action<RacerBettingCard> OnClickHandler;
     public Action<RacerBettingCard> OnBetUpdated;
+    public Action<RacerBettingCard> OnTamperCick;
     public ModifiersList modifiersList;
-    public GameObject tamperModalPrefab;
     public NumberInput betInput;
     public TextMeshProUGUI oddsText;
     public TextMeshProUGUI betText;
@@ -77,8 +77,7 @@ public class RacerBettingCard : MonoBehaviour
 
     public void OnTamper()
     {
-        GameObject instance = Instantiate(tamperModalPrefab, SessionManager.instance.modalContainer);
-        instance.GetComponent<TamperModal>().racer = racer;
+        OnTamperCick.Invoke(this);
     }
 
     private void StartAnimation()

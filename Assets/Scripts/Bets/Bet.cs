@@ -2,16 +2,16 @@
 public class Bet
 {
     public string gamblerName;
-    public Racer racer;
+    public string racerName;
     public int odds;
     public int value;
     public bool paidOut;
     private bool locked = false;
 
-    public Bet(string gamblerName, Racer racer, int value, int odds)
+    public Bet(string gamblerName, string racerName, int value, int odds)
     {
         this.gamblerName = gamblerName;
-        this.racer = racer;
+        this.racerName = racerName;
         this.value = value;
         this.odds = odds;
     }

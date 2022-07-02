@@ -61,6 +61,22 @@ public class Session
         }
     }
 
+    public List<RacerModifier> modifiers
+    {
+        get
+        {
+            List<RacerModifier> modifiers = new List<RacerModifier>();
+            foreach (GamblerSubmission item in submissions)
+            {
+                foreach (RacerModifier modifier in item.modifiers)
+                {
+                    modifiers.Add(modifier);
+                }
+            }
+            return modifiers;
+        }
+    }
+
     public List<Bet> bets
     {
         get

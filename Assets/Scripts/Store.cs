@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public class Store
 {
@@ -6,6 +7,7 @@ public class Store
 
     public static Race activeRace { get => session.race; }
     public static List<Racer> racers { get => session.racers; }
+    public static Racer GetRacer(string name) { return racers.Find(r => r.name == name); }
 
     public static Race race { get => session.race; }
     public static List<Gambler> gamblers { get => session.gamblers; }

@@ -8,7 +8,7 @@ public class TamperModalItem : MonoBehaviour
     public TextMeshProUGUI costText;
     public int cost;
     [SerializeField]
-    public RacerModifier tamper;
+    public RacerModifier modifier;
 
     private void OnEnable()
     {

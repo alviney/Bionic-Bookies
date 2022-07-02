@@ -15,7 +15,7 @@ public class BetResults : MonoBehaviour
 
         foreach (Bet bet in Store.session.bets)
         {
-            if (bet.racer.name == racer.name)
+            if (bet.racerName == racer.name)
             {
                 GameObject instance = Instantiate(betEntryPrefab, this.transform);
                 Payout payout = Store.session.payouts.Find(p => p.gamblerName == bet.gamblerName);

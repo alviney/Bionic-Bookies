@@ -89,6 +89,9 @@ public class SessionManager : MonoBehaviour
                 }
                 break;
 
+            case SessionState.Race:
+                Store.session.modifiers.ForEach(m => m.AddToRacer());
+                break;
             case SessionState.RaceResults:
                 if (isHost)
                 {
@@ -97,7 +100,7 @@ public class SessionManager : MonoBehaviour
 
                     foreach (Bet bet in Store.session.bets)
                     {
-                        if (bet.racer.name == Store.race.racersFinished[0].name)
+                        if (bet.racerName == Store.race.racersFinished[0].name)
                         {
                             int payout = bet.Payout;
                             Store.GetGambler(bet.gamblerName).UpdateCash(payout);

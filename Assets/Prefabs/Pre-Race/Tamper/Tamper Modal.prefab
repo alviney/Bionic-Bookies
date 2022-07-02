@@ -658,9 +658,21 @@ PrefabInstance:
       propertyPath: tamper.value
       value: -0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2011850977368805173, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: modifier.value
+      value: -0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
       propertyPath: m_text
-      value: -2 Speed
+      value: -15% Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
       propertyPath: m_textInfo.lineCount
@@ -1086,6 +1098,22 @@ PrefabInstance:
       propertyPath: tamper.value
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2011850977368805173, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: modifier.value
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: m_text
+      value: +15% speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
       propertyPath: m_textInfo.lineCount
       value: 1
@@ -1372,13 +1400,21 @@ PrefabInstance:
       propertyPath: tamper.value
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 2011850977368805173, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: modifier.stat
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011850977368805173, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
+      propertyPath: modifier.value
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
       propertyPath: m_text
-      value: +2 Acceleration
+      value: +20% Acceleration
       objectReference: {fileID: 0}
     - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
       propertyPath: m_fontSize
-      value: 24.6
+      value: 20.75
       objectReference: {fileID: 0}
     - target: {fileID: 2140561124953751468, guid: dbc02effa451f384dbe723dba4fae825, type: 3}
       propertyPath: m_fontSizeBase

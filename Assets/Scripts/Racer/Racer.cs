@@ -43,15 +43,18 @@ public class Racer
         this.bodyColor = Random.Range(0, 5);
     }
 
-    public void AddTamper(RacerModifier tamper)
+    public void AddModifier(RacerModifier modifier)
     {
-        switch (tamper.stat)
+        float value = 0;
+        switch (modifier.stat)
         {
             case RacerStat.Speed:
-                speed.AddModifier(tamper.value);
+                value = modifier.type == RacerModifierType.Percentage ? speed.baseValue * modifier.value : modifier.value;
+                speed.AddModifier(value);
                 break;
             case RacerStat.Acceleration:
-                acceleration.AddModifier(tamper.value);
+                value = modifier.type == RacerModifierType.Percentage ? acceleration.baseValue * modifier.value : modifier.value;
+                acceleration.AddModifier(value);
                 break;
         }
     }

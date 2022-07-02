@@ -1,7 +1,9 @@
 using UnityEngine;
+using System;
 
 public class TamperModal : MonoBehaviour
 {
+    public Action<RacerModifier> OnAddModifier;
     public Transform content;
     public Racer racer;
     private TamperModalItem[] items;
@@ -32,8 +34,9 @@ public class TamperModal : MonoBehaviour
     {
         if (racer != null)
         {
-            racer.AddTamper(item.tamper);
             Store.activeGambler.UpdateCash(-item.cost);
+            item.modifier.racerName = racer.name;
+            OnAddModifier.Invoke(item.modifier);
         }
     }
 

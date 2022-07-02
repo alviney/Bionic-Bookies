@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Stat
 {
     [SerializeField]
-    private float baseValue;
+    public float baseValue;
     public List<float> modifiers = new List<float>();
 
     public Stat(float value)
