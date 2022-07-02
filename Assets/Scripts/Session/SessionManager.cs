@@ -82,7 +82,7 @@ public class SessionManager : MonoBehaviour
                 if (isHost)
                 {
                     // Clear previous race bets
-                    Store.session.bets.Clear();
+                    Store.session.submissions.Clear();
                     // Create race
                     int raceIndex = (Store.session.race?.raceNumber ?? 0) + 1;
                     Store.session.race = new Race(raceIndex);
@@ -94,6 +94,7 @@ public class SessionManager : MonoBehaviour
                 {
                     Store.racers.ForEach(r => r.ClearModifiers());
                     Store.session.payouts.Clear();
+                    Debug.Log("Bet count" + Store.session.bets.Count);
                     foreach (Bet bet in Store.session.bets)
                     {
                         if (bet.racer.name == Store.race.racersFinished[0].name)
@@ -153,15 +154,15 @@ public class SessionManager : MonoBehaviour
     public void HandleLobbyMemberDataUpdate(Lobby lobby, Friend friend)
     {
         Debug.Log("Handle lobby member data update for " + friend.Name);
-        string data = lobby.GetMemberData(friend, "status");
-        if (data != "")
-        {
-            GamblerStatus status = (GamblerStatus)System.Enum.Parse(typeof(GamblerStatus), data);
-            Debug.Log("Gambler status " + status);
-            Store.GetGambler(friend.Name).UpdateStatus(status);
-        }
+        HandleUpdateStatus(lobby, friend);
+
         if (isHost)
         {
+            if (state == SessionState.Betting)
+            {
+                HandleSubmission(lobby, friend);
+            }
+
             if (Store.allGamblersReady)
             {
                 Debug.Log("All gamblers ready");
@@ -169,6 +170,27 @@ public class SessionManager : MonoBehaviour
             }
         }
 
+    }
+
+    private void HandleSubmission(Lobby lobby, Friend friend)
+    {
+        string data = lobby.GetMemberData(friend, GamblerSubmission.JsonKey);
+        if (data != "")
+        {
+            GamblerSubmission submission = GamblerSubmission.CreateFromJSON(data);
+            Store.session.AddSubmission(submission);
+        }
+    }
+
+    private void HandleUpdateStatus(Lobby lobby, Friend friend)
+    {
+        string data = lobby.GetMemberData(friend, "status");
+        if (data != "")
+        {
+            GamblerStatus status = (GamblerStatus)System.Enum.Parse(typeof(GamblerStatus), data);
+            Debug.Log("Gambler status " + status);
+            Store.GetGambler(friend.Name).UpdateStatus(status);
+        }
     }
 
     public void PostLobbyMemberDataUpdate(string key, string value)
@@ -182,11 +204,11 @@ public class SessionManager : MonoBehaviour
         if (isOnline)
         {
             // postBet
-            Store.session.bets.Add(bet);
+            // Store.session.bets.Add(bet);
         }
         else
         {
-            Store.session.bets.Add(bet);
+            // Store.session.bets.Add(bet);
         }
     }
 

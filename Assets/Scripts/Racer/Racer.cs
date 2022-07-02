@@ -43,7 +43,7 @@ public class Racer
         this.bodyColor = Random.Range(0, 5);
     }
 
-    public void AddTamper(Tamper tamper)
+    public void AddTamper(RacerModifier tamper)
     {
         switch (tamper.stat)
         {

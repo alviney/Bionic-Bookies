@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Steamworks;
 
 public enum SessionState { Lobby, Betting, Race, RaceResults, Accusations }
@@ -9,8 +10,8 @@ public class Session
     public List<Racer> racers;
     public List<Gambler> gamblers;
     public Race race;
-    public List<Bet> bets;
     public List<Payout> payouts;
+    public List<GamblerSubmission> submissions;
     public SessionState state;
 
 
@@ -20,7 +21,7 @@ public class Session
 
         this.racers = Racers.CreateRacers();
         this.gamblers = gamblers;
-        this.bets = new List<Bet>();
+        this.submissions = new List<GamblerSubmission>();
         this.payouts = new List<Payout>();
     }
 
@@ -47,14 +48,33 @@ public class Session
         return state;
     }
 
-    public string ToJson
+    public void AddSubmission(GamblerSubmission submission)
     {
-        get => JsonUtility.ToJson(this, true);
+        if (!submissions.Exists(s => s.owner.name == submission.owner.name))
+        {
+            Debug.Log("Gambler submission " + submission);
+            submissions.Add(submission);
+        }
+        else
+        {
+            Debug.Log($"Submission for {submission.owner} already added");
+        }
     }
 
-    public string JsonKey
+    public List<Bet> bets
     {
-        get => LobbyDataKey.Session.ToString();
+        get
+        {
+            List<Bet> bets = new List<Bet>();
+            foreach (GamblerSubmission item in submissions)
+            {
+                foreach (Bet bet in item.bets)
+                {
+                    bets.Add(bet);
+                }
+            }
+            return bets;
+        }
     }
 
     public static Session NewOnline(int numberOfHumans, int numberOfAI, int numberOfRounds)
@@ -96,6 +116,17 @@ public class Session
         }
 
         return new Session(gamblers, numberOfRounds);
+    }
+
+
+    public string ToJson
+    {
+        get => JsonUtility.ToJson(this, true);
+    }
+
+    public string JsonKey
+    {
+        get => LobbyDataKey.Session.ToString();
     }
 
     public static Session CreateFromJSON(string json)

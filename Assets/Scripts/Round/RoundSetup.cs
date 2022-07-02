@@ -74,34 +74,33 @@ public class RoundSetup : MonoBehaviour
 
     public void OnReady()
     {
-        PlaceBets();
         Store.activeGambler.UpdateStatus(GamblerStatus.Ready);
+        GamblerSubmission submission = new GamblerSubmission(Store.activeGambler, GetBets(), GetModifiers());
+        SessionManager.instance.PostLobbyMemberDataUpdate(GamblerSubmission.JsonKey, submission.ToJson);
         SessionManager.instance.PostLobbyMemberDataUpdate("status", GamblerStatus.Ready.ToString());
-
-        // if (Store.allGamblersReady)
-        // {
-        //     DOVirtual.DelayedCall(1, () =>
-        //     {
-        //         SessionManager.instance.NextState();
-
-        //     });
-        // }
-        // else
-        // {
-        //     // Store.gamblersController.NextGambler();
-        // }
     }
 
-    private void PlaceBets()
+
+    private List<RacerModifier> GetModifiers()
     {
+        return new List<RacerModifier>();
+    }
+
+    private List<Bet> GetBets()
+    {
+        List<Bet> bets = new List<Bet>();
         foreach (RacerBettingCard card in cards)
         {
             if (card.betValue > 0)
             {
                 Bet bet = new Bet(Store.activeGambler, card.racer, (int)card.betValue, 2);
-                SessionManager.instance.PlaceBet(bet);
+                bet.Lock();
+                bets.Add(bet);
+                // SessionManager.instance.PlaceBet(bet);
             }
         }
+
+        return bets;
     }
 
     private void HandleBetUpdate(RacerBettingCard card)

@@ -1,21 +1,34 @@
 using UnityEngine;
 
-public enum LobbyDataKey { Session }
-public class LobbyData : MonoBehaviour
+public enum LobbyDataKey { Session, GamblerSubmission, GamblerStatus }
+public class LobbyData
 {
-
-    public LobbyData(Session session)
+    public static string Key(Session session)
     {
-
+        return LobbyDataKey.Session.ToString();
     }
 
-    public LobbyDataKey Key(Session session)
+    public static string Key(GamblerSubmission submission)
     {
-        return LobbyDataKey.Session;
+        return LobbyDataKey.GamblerSubmission.ToString();
     }
 
-    public string Data(Session session)
+    public static string Key(GamblerStatus status)
     {
-        return JsonUtility.ToJson(session);
+        return LobbyDataKey.GamblerStatus.ToString();
     }
+    // public LobbyData(Session session)
+    // {
+
+    // }
+
+    // public LobbyDataKey Key(Session session)
+    // {
+    //     return LobbyDataKey.Session;
+    // }
+
+    // public LobbyDataKey Key(GamblerSubmission submission)
+    // {
+    //     return LobbyDataKey.GamblerSubmission;
+    // }
 }
