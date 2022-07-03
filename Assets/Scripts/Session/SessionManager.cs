@@ -85,6 +85,7 @@ public class SessionManager : MonoBehaviour
             case SessionState.Race:
                 Store.session.modifiers.ForEach(m => m.AddToRacer());
                 break;
+
             case SessionState.RaceResults:
                 if (isHost)
                 {

@@ -6,6 +6,7 @@ public class TamperModal : MonoBehaviour
     public Action<RacerModifier> OnAddModifier;
     public Transform content;
     public Racer racer;
+    public RacerUI racerUI;
     private TamperModalItem[] items;
 
     private void OnEnable()
