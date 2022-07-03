@@ -113,7 +113,7 @@ public class RoundSetup : MonoBehaviour
     {
         GameObject instance = Instantiate(tamperModalPrefab, SessionManager.instance.modalContainer);
         TamperModal modal = instance.GetComponent<TamperModal>();
-        modal.racer = card.racer;
+        modal.Present(card.racer);
         modal.OnAddModifier += OnAddModifier;
     }
 

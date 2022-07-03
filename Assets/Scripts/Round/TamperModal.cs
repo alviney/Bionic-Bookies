@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 
 public class TamperModal : MonoBehaviour
 {
+    public UnityEvent<Racer> OnRacerAdded;
     public Action<RacerModifier> OnAddModifier;
     public Transform content;
-    public Racer racer;
-    public RacerUI racerUI;
+    private Racer racer;
     private TamperModalItem[] items;
 
     private void OnEnable()
@@ -19,6 +20,12 @@ public class TamperModal : MonoBehaviour
     {
         RemoveListeners();
         racer = null;
+    }
+
+    public void Present(Racer racer)
+    {
+        this.racer = racer;
+        this.OnRacerAdded.Invoke(racer);
     }
 
     private void AddListeners()
